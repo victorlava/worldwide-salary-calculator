@@ -5,7 +5,7 @@ namespace VictorLava\SalaryCalculator\TaxPayer;
 use VictorLava\SalaryCalculator\Model\Salary;
 use VictorLava\SalaryCalculator\Model\Tax;
 
-class IndependentContractor extends AbstractTaxPayer {
+class Contractor extends AbstractTaxPayer {
 
     public function __construct()
     {
@@ -15,15 +15,21 @@ class IndependentContractor extends AbstractTaxPayer {
         parent::__construct();
     }
 
-    public function calculateNet(float $grossSalary)
+    public function calculateSalary(float $grossSalary)
     {
         $this->salary->set('gross', $grossSalary);
-        $this->tax->set('income', $this->calculateIncomeTax());
 
+        $this->calculateTaxes();
 
         $this->salary->set('net', $this->calculateSalaryNet());
         $this->salary->set('lost', $this->calculateSalaryLost());
         $this->salary->set('lostInPercentage', $this->calculateSalaryLostInPercetange());
+
+    }
+
+    public function calculateTaxes()
+    {
+        $this->tax->set('income', $this->calculateIncomeTax());
 
     }
 
@@ -44,7 +50,10 @@ class IndependentContractor extends AbstractTaxPayer {
 
     public function calculateIncomeTax()
     {
-        return $this->salary->get('gross') * $this->taxRates['income_tax'] / 100;
+        $gross = $this->salary->get('gross');
+        $expenses = $this->salary->get('expenses');
+
+        return ($gross - $expenses) * $this->taxRates['income_tax'] / 100;
     }
 
 }

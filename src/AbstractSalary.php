@@ -3,7 +3,7 @@
 namespace VictorLava\SalaryCalculator;
 
 use VictorLava\SalaryCalculator\TaxPayer\AbstractTaxPayer;
-use VictorLava\SalaryCalculator\TaxPayer\IndependentContractor;
+use VictorLava\SalaryCalculator\TaxPayer\Contractor;
 
 class AbstractSalary {
 
@@ -20,7 +20,7 @@ class AbstractSalary {
         $this->taxPayer = $taxPayer;
 
         if($taxPayer === null) {
-            $this->taxPayer = new IndependentContractor();
+            $this->taxPayer = new Contractor();
         }
     }
 
