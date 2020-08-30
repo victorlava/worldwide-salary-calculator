@@ -15,6 +15,11 @@ class Configuration {
 
     protected $configuration;
 
+    public function __construct()
+    {
+        $this->load();
+    }
+
     public function load()
     {
         $this->configuration = $this->loadMainConfiguration();
@@ -36,6 +41,13 @@ class Configuration {
     public function shouldIncludeConfiguration()
     {
         return $this->configuration['include_configuration_in_the_response'];
+    }
+
+    public function shouldEnableFormatter($className)
+    {
+        $className = lcfirst($this->getClassName($className));
+
+        return $this->configuration["include_{$className}_in_the_response"];
     }
 
     public function getTaxRates($className)
