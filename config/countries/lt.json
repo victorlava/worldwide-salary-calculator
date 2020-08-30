@@ -1,13 +1,11 @@
-<?php
-
-return [
-    'employee' => [
-        'social_security_tax' => 6.98,
-        'pension_insurance' => 8.72,
-        'sickness_social_security' => 2.09,
-        'maternity_social_security' => 1.71,
-        'health_insurance' => 0,
-        'working_level' => 100,
-        'income_tax' => 20,
-    ]
-];
+{
+    "employee": {
+        "social_security_tax": 6.98,
+        "pension_insurance": 8.72,
+        "sickness_social_security": 2.09,
+        "maternity_social_security": 1.71,
+        "health_insurance": 0,
+        "working_level": 100,
+        "income_tax": 20
+    }
+}

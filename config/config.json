@@ -1,7 +1,4 @@
-<?php
-
-
-return [
-    'use_external_api' => false,
-    'default_country' => 'lt'
-];
+{
+    "use_external_api": false,
+    "default_country": "lt"
+}
