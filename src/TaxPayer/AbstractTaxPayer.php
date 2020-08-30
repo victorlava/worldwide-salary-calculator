@@ -22,7 +22,7 @@ class AbstractTaxPayer {
 
     public function calculate(float $grossSalary)
     {
-        $this->calculateNet($grossSalary);
+        $this->calculateSalary($grossSalary);
 
         $result = new BaseFormatter($this);
 
