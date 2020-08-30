@@ -3,21 +3,25 @@
 namespace VictorLava\SalaryCalculator\TaxPayer;
 
 use VictorLava\SalaryCalculator\Model\Salary;
+use VictorLava\SalaryCalculator\Model\Tax;
 
 class IndependentContractor extends AbstractTaxPayer {
 
     public function __construct()
     {
         $this->salary = new Salary();
+        $this->tax = new Tax();
+
         parent::__construct();
     }
 
     public function calculateNet(float $grossSalary)
     {
-        $incomeTax = $this->calculateIncomeTax($grossSalary);
-
         $this->salary->set('gross', $grossSalary);
-        $this->salary->set('net', $this->calculateSalaryNet($incomeTax));
+        $this->tax->set('income', $this->calculateIncomeTax());
+
+
+        $this->salary->set('net', $this->calculateSalaryNet());
         $this->salary->set('lost', $this->calculateSalaryLost());
         $this->salary->set('lostInPercentage', $this->calculateSalaryLostInPercetange());
 
@@ -33,14 +37,14 @@ class IndependentContractor extends AbstractTaxPayer {
         return $this->salary->get('gross') - $this->salary->get('net');
     }
 
-    public function calculateSalaryNet(float $taxes)
+    public function calculateSalaryNet()
     {
-        return $this->salary->get('gross') - $taxes;
+        return $this->salary->get('gross') - $this->tax->get('income');
     }
 
-    public function calculateIncomeTax(float $grossSalary)
+    public function calculateIncomeTax()
     {
-        return $grossSalary * $this->taxRates['income_tax'] / 100;
+        return $this->salary->get('gross') * $this->taxRates['income_tax'] / 100;
     }
 
 }
