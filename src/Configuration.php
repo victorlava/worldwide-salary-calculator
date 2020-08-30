@@ -7,26 +7,48 @@ use Noodlehaus\Parser\Json;
 
 class Configuration {
 
-    const DIRECTORY = 'config';
+    const CONFIG_DIRECTORY = 'config';
+
+    const COUNTRY_DIRECTORY = self::CONFIG_DIRECTORY . '/countries/';
+
+    const CONFIG_FILE_TYPE = '.json';
 
     protected $configuration;
 
     public function load()
     {
-        $mainConfig = $this->loadMainConfiguration();
-        $mainConfig['taxes'] = $this->loadCountrySpecificConfiguration($mainConfig['default_country']);
+        $this->configuration = $this->loadMainConfiguration();
+        $this->configuration['taxRates'] = $this->loadCountrySpecificConfiguration($this->configuration['default_country']);
 
-        return $mainConfig;
+        return $this->configuration;
     }
 
     public function loadMainConfiguration()
     {
-        return Config::load(self::DIRECTORY . '/config.json', new Json())->all();
+        return Config::load(self::CONFIG_DIRECTORY . '/config' . self::CONFIG_FILE_TYPE, new Json())->all();
     }
 
     public function loadCountrySpecificConfiguration(string $countryCode)
     {
-        return Config::load(self::DIRECTORY . '/countries/' . $countryCode . '.json', new Json())->all();
+        return Config::load(self::COUNTRY_DIRECTORY . $countryCode . self::CONFIG_FILE_TYPE, new Json())->all();
+    }
+
+    public function shouldIncludeConfiguration()
+    {
+        return $this->configuration['include_configuration_in_the_response'];
+    }
+
+    public function getTaxRates($className)
+    {
+        $className = lcfirst($this->getClassName($className));
+        return $this->configuration['taxRates'][$className];
+    }
+
+    private function getClassName($className)
+    {
+        if ($pos = strrpos($className, '\\')) return substr($className, $pos + 1);
+
+        return $pos;
     }
 
 }
