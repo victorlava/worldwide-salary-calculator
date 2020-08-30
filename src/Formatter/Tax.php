@@ -6,13 +6,19 @@ use VictorLava\SalaryCalculator;
 
 class Tax extends AbstractFormatter {
 
+    public function __construct(SalaryCalculator\TaxPayer\AbstractTaxPayer $taxPayer)
+    {
+        $this->taxPayer = $taxPayer;
+        parent::__construct();
+    }
+
     public function toArray()
     {
         $tax = null;
 
         if($this->shouldEnableFormatter()) {
             $tax = [
-                "incomeTax" => ''
+                "income" => $this->taxPayer->tax->get('income')
             ];
         }
 
