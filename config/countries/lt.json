@@ -7,5 +7,8 @@
         "health_insurance": 0,
         "working_level": 100,
         "income_tax": 20
+    },
+    "independentContractor": {
+        "income_tax": 15
     }
 }
