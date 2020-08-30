@@ -22,22 +22,11 @@ class AbstractTaxPayer {
 
     public function calculate(float $grossSalary)
     {
-
         $this->calculateNet($grossSalary);
 
         $result = new BaseFormatter($this);
 
         return $result->toArray();
-    }
-
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    public function getTaxRates()
-    {
-        return $this->taxRates;
     }
 
 }

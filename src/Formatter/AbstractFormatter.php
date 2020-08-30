@@ -2,7 +2,6 @@
 
 namespace VictorLava\SalaryCalculator\Formatter;
 
-use VictorLava\SalaryCalculator;
 use VictorLava\SalaryCalculator\Configuration;
 
 class AbstractFormatter {

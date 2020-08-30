@@ -9,8 +9,6 @@ use VictorLava\SalaryCalculator\Formatter\Tax as TaxFormatter;
 
 class Base {
 
-    protected $taxPayer;
-
     public function __construct(SalaryCalculator\TaxPayer\AbstractTaxPayer $taxPayer)
     {
         $this->configuration = new ConfigurationFormatter();

@@ -2,8 +2,6 @@
 
 namespace VictorLava\SalaryCalculator\Model;
 
-use VictorLava\SalaryCalculator;
-
 class AbstractModel {
 
     public function set(string $propertyName, $propertyValue)
