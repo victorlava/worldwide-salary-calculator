@@ -1,4 +1,6 @@
 {
     "use_external_api": false,
+    "include_configuration_in_the_response": false,
+    "include_tax_calclations_in_the_response": true,
     "default_country": "lt"
 }
