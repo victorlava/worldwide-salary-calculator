@@ -2,38 +2,40 @@
 
 namespace VictorLava\SalaryCalculator\TaxPayer;
 
-use VictorLava\SalaryCalculator\TaxFormatter;
+use VictorLava\SalaryCalculator\Model\Salary;
 
 class IndependentContractor extends AbstractTaxPayer {
 
+    public function __construct()
+    {
+        $this->salary = new Salary();
+        parent::__construct();
+    }
+
     public function calculateNet(float $grossSalary)
     {
-        $this->setSalaryGross($grossSalary);
-
         $incomeTax = $this->calculateIncomeTax($grossSalary);
-        $netSalary = $this->calculateNetSalary($grossSalary, $incomeTax);
 
-        $loss = $this->calculateSalaryLoss($grossSalary, $netSalary);
-        $lossPercentage = $this->calculateSalaryLossInPercetange($loss, $grossSalary);
+        $this->salary->set('gross', $grossSalary);
+        $this->salary->set('net', $this->calculateSalaryNet($incomeTax));
+        $this->salary->set('lost', $this->calculateSalaryLost());
+        $this->salary->set('lostInPercentage', $this->calculateSalaryLostInPercetange());
 
-        $this->setSalaryNet($netSalary);
-        $this->setSalaryLoss($loss);
-        $this->setSalaryLossPercentage($lossPercentage);
     }
 
-    public function calculateSalaryLossInPercetange(float $salaryLost, float $grossSalary)
+    public function calculateSalaryLostInPercetange()
     {
-        return $salaryLost * 100/$grossSalary;
+        return $this->salary->get('lost') * 100 / $this->salary->get('gross');
     }
 
-    public function calculateSalaryLoss(float $grossSalary, float $netSalary)
+    public function calculateSalaryLost()
     {
-        return $grossSalary - $netSalary;
+        return $this->salary->get('gross') - $this->salary->get('net');
     }
 
-    public function calculateNetSalary(float $grossSalary, float $taxes)
+    public function calculateSalaryNet(float $taxes)
     {
-        return $grossSalary - $taxes;
+        return $this->salary->get('gross') - $taxes;
     }
 
     public function calculateIncomeTax(float $grossSalary)
