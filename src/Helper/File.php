@@ -21,6 +21,33 @@ class File {
    }
 
     /**
+     * Converts name with dashes to name without dashes/spaces and with first letter uppercased. For ex. default_country => defaultCountry
+     *
+     * @param  string  $name
+     *
+     * @return string
+     */
+    public static function convertNameWithDashesToUppercaseFirst(string $name)
+    {
+        $explodedString = explode('_', $name);
+        $finalString = '';
+
+        for($i = 0; $i < count($explodedString); $i++)
+        {
+            if($i === 0) {
+                $finalString .= $explodedString[$i];
+                continue;
+            }
+
+            $explodedString[$i] = ucfirst($explodedString[$i]);
+            $finalString .= $explodedString[$i];
+
+        }
+
+        return $finalString;
+    }
+
+    /**
      * Return's a clean list of file names (without file extension types) in the requested directory.
      *
      * @param  string  $directory
