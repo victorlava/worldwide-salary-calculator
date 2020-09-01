@@ -1,5 +1,4 @@
 {
-    "use_external_api": false,
     "include_configuration_in_the_response": false,
     "include_tax_in_the_response": true,
     "include_salary_in_the_response": true,
