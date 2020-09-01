@@ -3,10 +3,9 @@
 namespace VictorLava\SalaryCalculator\Model;
 
 use VictorLava\SalaryCalculator\Configuration;
+use VictorLava\SalaryCalculator\Constant;
 
 class DynamicModel extends AbstractModel {
-
-    protected $fileExtension = "json";
 
     protected $countryCode;
 
@@ -14,8 +13,9 @@ class DynamicModel extends AbstractModel {
     {
         $this->configurationServiceProvider = new Configuration();
         $this->configuration = $this->configurationServiceProvider->load();
-
         $this->countryCode = $this->configuration['default_country'];
+
+        $this->define();
     }
 
     public function defineProperties($properties, $parentProperty = null)
@@ -37,16 +37,26 @@ class DynamicModel extends AbstractModel {
         }
     }
 
-    public function load()
+    public function addCountryCodeIfDirectoryRequiresIt($directoryName, $pathName)
     {
-        $fullDirectory = 'config/'. $this->directory . '/' . $this->countryCode;
+        if(in_array($directoryName, Constant::DIRECTORIES_THAT_REQUIRE_COUNTRY_CODE))
+        {
+            $pathName .= '/' . $this->countryCode;
+        }
 
-        $fileNames = $this->listFiles($fullDirectory);
+        return $pathName;
+    }
+
+    public function define()
+    {
+        $fullDirectoryPath = $this->addCountryCodeIfDirectoryRequiresIt($this->directoryName, 'config/'. $this->directoryName);
+
+        $fileNames = $this->listFiles($fullDirectoryPath);
         $properties = [];
 
         foreach($fileNames as $fileName)
         {
-            $properties = $this->configurationServiceProvider->loadFromCustomFile($fullDirectory . '/' . $fileName . '.' . $this->fileExtension);
+            $properties = $this->configurationServiceProvider->loadFromCustomFile($fullDirectoryPath . '/' . $fileName . '.' . Constant::CONFIG_FILE_EXTENSION);
             $this->defineProperties($properties, $fileName);
 
         }
@@ -61,7 +71,7 @@ class DynamicModel extends AbstractModel {
         unset($fileList[0]);
         unset($fileList[1]);
 
-        $fileList = $this->reIndexArrayAndDropFileExtension($fileList, $this->fileExtension);
+        $fileList = $this->reIndexArrayAndDropFileExtension($fileList, Constant::CONFIG_FILE_EXTENSION);
 
         return $fileList;
     }
