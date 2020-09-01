@@ -23,9 +23,14 @@ class Configuration {
     public function load()
     {
         $this->configuration = $this->loadMainConfiguration();
-        $this->configuration['taxRates'] = $this->loadCountrySpecificConfiguration($this->configuration['default_country']);
+        $this->configuration['rates'] = $this->loadCountrySpecificConfiguration($this->configuration['default_country']);
 
         return $this->configuration;
+    }
+
+    public function loadFromCustomFile($pathToFile)
+    {
+        return Config::load($pathToFile, new Json())->all();
     }
 
     public function loadMainConfiguration()
@@ -35,7 +40,7 @@ class Configuration {
 
     public function loadCountrySpecificConfiguration(string $countryCode)
     {
-        return Config::load(self::COUNTRY_DIRECTORY . $countryCode . self::CONFIG_FILE_TYPE, new Json())->all();
+        return Config::load(self::COUNTRY_DIRECTORY . $countryCode . '/lt' . self::CONFIG_FILE_TYPE, new Json())->all();
     }
 
     public function shouldIncludeConfiguration()
@@ -53,7 +58,7 @@ class Configuration {
     public function getTaxRates($className)
     {
         $className = lcfirst($this->getClassName($className));
-        return $this->configuration['taxRates'][$className];
+        return $this->configuration['rates'][$className];
     }
 
     private function getClassName($className)
