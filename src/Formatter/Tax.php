@@ -18,7 +18,12 @@ class Tax extends AbstractFormatter {
 
         if($this->shouldEnableFormatter()) {
             $tax = [
-                "income" => $this->taxPayer->tax->get('income')
+                "income" => $this->taxPayer->tax->get('income'),
+                "socialSecurity" => $this->taxPayer->tax->get('socialSecurity'),
+                "sicknessSocialSecurity" => $this->taxPayer->tax->get('sicknessSocialSecurity'),
+                "maternitySocialSecurity" => $this->taxPayer->tax->get('maternitySocialSecurity'),
+                "pensionInsurance" => $this->taxPayer->tax->get('pensionInsurance'),
+                "healthInsurance" => $this->taxPayer->tax->get('healthInsurance')
             ];
         }
 
