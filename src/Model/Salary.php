@@ -12,4 +12,6 @@ class Salary extends AbstractModel {
 
     public $lostInPercentage;
 
+    public $expenses;
+
 }
