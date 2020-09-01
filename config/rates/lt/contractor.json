@@ -1,0 +1,10 @@
+{
+  "income_tax": {
+    "value": 5,
+    "linear_growth": {
+      "from": 20000,
+      "to": 35000,
+      "maxValue": 15
+    }
+  }
+}
