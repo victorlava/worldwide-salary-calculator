@@ -9,7 +9,7 @@ class Configuration {
 
     const CONFIG_DIRECTORY = 'config';
 
-    const COUNTRY_DIRECTORY = self::CONFIG_DIRECTORY . '/countries/';
+    const COUNTRY_DIRECTORY = self::CONFIG_DIRECTORY . '/rates/';
 
     const CONFIG_FILE_TYPE = '.json';
 

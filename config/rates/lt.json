@@ -5,7 +5,6 @@
         "sickness_social_security": 2.09,
         "maternity_social_security": 1.71,
         "health_insurance": 0,
-        "working_level": 100,
         "income_tax": {
             "value": 20,
             "after_gross_salary": {
@@ -17,9 +16,10 @@
     "contractor": {
         "income_tax": {
             "value": 5,
-            "until_gross_salary": {
-                "exceeds": 35000,
-                "value": 15
+            "linear_growth": {
+                "from": 20000,
+                "to": 35000,
+                "maxValue": 15
             }
         }
     }
