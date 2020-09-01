@@ -1,29 +1,34 @@
 <?php
 
-namespace VictorLava\SalaryCalculator\Helper;
 
+namespace VictorLava\SalaryCalculator\Helper;
 
 use VictorLava\SalaryCalculator\Constant;
 
 class File {
 
-   public static function addCountryCodeToPath($directoryName, $pathName)
-   {
-       // TODO: solve this by getting the enable countryCode staticly
-       if(in_array($directoryName, Constant::DIRECTORIES_THAT_REQUIRE_COUNTRY_CODE))
-       {
-           // $pathName .= '/' . $this->countryCode;
-       }
-
-       return $pathName;
-   }
-
-   public static function removeExtensionFromTheName($fileName, $fileExtension)
+    /**
+     * Remove's the requested file extension type from the supplied file name.
+     *
+     * @param  string  $fileName
+     * @param  string  $fileExtension
+     *
+     * @return string
+     */
+   public static function removeExtensionFromTheName(string $fileName, string $fileExtension): string
    {
        return str_replace(".$fileExtension", '', $fileName);
    }
 
-   public static function getList($directory) {
+    /**
+     * Return's a clean list of file names (without file extension types) in the requested directory.
+     *
+     * @param  string  $directory
+     *
+     * @return array
+     */
+   public static function getList(string $directory): array
+   {
         $fileList = scandir($directory);
 
         // Unset ., ..
@@ -35,7 +40,15 @@ class File {
         return $fileList;
     }
 
-    public static function reIndexArrayAndRemoveExtensionName($array, $fileExtension)
+     /**
+      * Re-index'es an array and removes file type extensions, for ex. ".json"
+      *
+      * @param  array  $array
+      * @param  string  $fileExtension
+      *
+      * @return array
+      */
+    public static function reIndexArrayAndRemoveExtensionName(array $array, string $fileExtension): array
     {
         $i = 0;
 
@@ -47,6 +60,17 @@ class File {
         }
 
         return $array;
+    }
+
+    // TODO: solve this by getting the enable countryCode staticly
+    public static function addCountryCodeToPath($directoryName, $pathName)
+    {
+        if(in_array($directoryName, Constant::DIRECTORIES_THAT_REQUIRE_COUNTRY_CODE))
+        {
+            // $pathName .= '/' . $this->countryCode;
+        }
+
+        return $pathName;
     }
 
 
