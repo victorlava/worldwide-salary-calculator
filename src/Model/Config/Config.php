@@ -4,7 +4,7 @@ namespace VictorLava\SalaryCalculator\Model\Config;
 
 use VictorLava\SalaryCalculator\Model\DynamicModel;
 
-class App extends DynamicModel {
+class Config extends DynamicModel {
 
     public $fileName = "config";
 
