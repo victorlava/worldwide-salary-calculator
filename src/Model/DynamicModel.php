@@ -9,6 +9,10 @@ class DynamicModel extends AbstractModel {
 
     protected $countryCode;
 
+    protected $fileName;
+
+    protected $directoryName;
+
     public function __construct()
     {
         $this->configurationServiceProvider = new Configuration();
@@ -49,19 +53,31 @@ class DynamicModel extends AbstractModel {
 
     public function define()
     {
-        $fullDirectoryPath = $this->addCountryCodeIfDirectoryRequiresIt($this->directoryName, 'config/'. $this->directoryName);
+        $configuration = $this->configurationServiceProvider;
+
+        if($this->fileName !== null) {
+            $this->defineFromFileName($configuration);
+        } else {
+            $this->defineFromFileDirectory($configuration);
+        }
+    }
+
+    public function defineFromFileName(Configuration $configuration)
+    {
+        $properties = $configuration->loadFromCustomFile("config/{$this->fileName}." . Constant::CONFIG_FILE_EXTENSION);
+        $this->defineProperties($properties);
+    }
+
+    public function defineFromFileDirectory(Configuration $configuration)
+    {
+        $fullDirectoryPath = $this->addCountryCodeIfDirectoryRequiresIt($this->directoryName, "config/$this->directoryName");
 
         $fileNames = $this->listFiles($fullDirectoryPath);
-        $properties = [];
 
-        foreach($fileNames as $fileName)
-        {
-            $properties = $this->configurationServiceProvider->loadFromCustomFile($fullDirectoryPath . '/' . $fileName . '.' . Constant::CONFIG_FILE_EXTENSION);
+        foreach ($fileNames as $fileName) {
+            $properties = $configuration->loadFromCustomFile("$fullDirectoryPath/$fileName." . Constant::CONFIG_FILE_EXTENSION);
             $this->defineProperties($properties, $fileName);
-
         }
-
-        return $properties;
     }
 
     public function listFiles($directory) {
