@@ -5,7 +5,8 @@ namespace VictorLava\SalaryCalculator\Helper;
 
 use VictorLava\SalaryCalculator\Constant;
 use VictorLava\SalaryCalculator\Model\Config\Config;
-use VictorLava\SalaryCalculator\Helper\File;
+use VictorLava\SalaryCalculator\Helper\Path;
+
 
 class App {
 
@@ -22,7 +23,7 @@ class App {
 
         foreach ($configurationValues as $key => $configurationValue)
         {
-            if(File::convertNameWithDashesToUppercaseFirst($key) === $name) // same key exists like the called static function
+            if(Path::convertDashesToUppercaseFirst($key) === $name) // same key exists like the called static function
             {
                 $returnValue = $configurationValue;
                 break;

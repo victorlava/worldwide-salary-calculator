@@ -52,7 +52,7 @@ class DynamicModel extends AbstractModel {
 
     public function defineFromFileDirectory()
     {
-        $fullDirectoryPath = File::addCountryCodeToPath($this->directoryName, "config/$this->directoryName");
+        $fullDirectoryPath = Path::addCountryCode($this->directoryName, "config/$this->directoryName");
 
         $fileNames = File::getList($fullDirectoryPath);
 
