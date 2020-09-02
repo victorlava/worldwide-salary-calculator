@@ -9,16 +9,16 @@ use VictorLava\SalaryCalculator\Helper\File;
 
 class App {
 
-    public static function getConfiguration()
+    public static function get()
     {
         $config = new Config();
-        return $config->configuration; // Refactore this
+        return $config; // Refactor this
     }
 
     public static function __callStatic($name, $arguments)
     {
         $returnValue = null;
-        $configurationValues = self::getConfiguration();
+        $configurationValues = self::get();
 
         foreach ($configurationValues as $key => $configurationValue)
         {
