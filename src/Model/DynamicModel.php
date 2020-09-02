@@ -2,13 +2,10 @@
 
 namespace VictorLava\SalaryCalculator\Model;
 
-use VictorLava\SalaryCalculator\Helper;
-use VictorLava\SalaryCalculator\Configuration;
 use VictorLava\SalaryCalculator\Constant;
+use VictorLava\SalaryCalculator\Helper\File;
 
 class DynamicModel extends AbstractModel {
-
-    protected $countryCode;
 
     protected $fileName;
 
@@ -16,10 +13,6 @@ class DynamicModel extends AbstractModel {
 
     public function __construct()
     {
-        $this->configurationServiceProvider = new Configuration();
-        $this->configuration = $this->configurationServiceProvider->load();
-        $this->countryCode = $this->configuration['default_country'];
-
         $this->define();
     }
 
@@ -41,32 +34,30 @@ class DynamicModel extends AbstractModel {
             $this->{$parentProperty}->{$key} = $value;
         }
     }
-    
+
     public function define()
     {
-        $configuration = $this->configurationServiceProvider;
-
         if($this->fileName !== null) {
-            $this->defineFromFileName($configuration);
+            $this->defineFromFileName();
         } else {
-            $this->defineFromFileDirectory($configuration);
+            $this->defineFromFileDirectory();
         }
     }
 
-    public function defineFromFileName(Configuration $configuration)
+    public function defineFromFileName()
     {
-        $properties = $configuration->loadFromCustomFile("config/{$this->fileName}." . Constant::CONFIG_FILE_EXTENSION);
+        $properties = File::loadFromCustomPath("config/{$this->fileName}." . Constant::CONFIG_FILE_EXTENSION);
         $this->defineProperties($properties);
     }
 
-    public function defineFromFileDirectory(Configuration $configuration)
+    public function defineFromFileDirectory()
     {
         $fullDirectoryPath = File::addCountryCodeToPath($this->directoryName, "config/$this->directoryName");
 
         $fileNames = File::getList($fullDirectoryPath);
 
         foreach ($fileNames as $fileName) {
-            $properties = $configuration->loadFromCustomFile("$fullDirectoryPath/$fileName." . Constant::CONFIG_FILE_EXTENSION);
+            $properties = File::loadFromCustomPath("$fullDirectoryPath/$fileName." . Constant::CONFIG_FILE_EXTENSION);
             $this->defineProperties($properties, $fileName);
         }
     }
