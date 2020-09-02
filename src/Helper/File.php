@@ -89,16 +89,22 @@ class File {
         return $array;
     }
 
-    // TODO: solve this by getting the enable countryCode staticly
-    public static function addCountryCodeToPath($directoryName, $pathName)
+    /**
+     * Re-index'es an array and removes file type extensions, for ex. ".json"
+     *
+     * @param  string  $directoryName
+     * @param  string  $pathName
+     *
+     * @return string
+     */
+    public static function addCountryCodeToPath(string $directoryName, string $pathName)
     {
         if(in_array($directoryName, Constant::DIRECTORIES_THAT_REQUIRE_COUNTRY_CODE))
         {
-            // $pathName .= '/' . $this->countryCode;
+             $pathName .= '/' . App::defaultCountry();
         }
 
         return $pathName;
     }
-
 
 }

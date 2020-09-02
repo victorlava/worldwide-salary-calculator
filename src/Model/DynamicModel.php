@@ -41,17 +41,7 @@ class DynamicModel extends AbstractModel {
             $this->{$parentProperty}->{$key} = $value;
         }
     }
-
-    public function addCountryCodeIfDirectoryRequiresIt($directoryName, $pathName)
-    {
-        if(in_array($directoryName, Constant::DIRECTORIES_THAT_REQUIRE_COUNTRY_CODE))
-        {
-            $pathName .= '/' . $this->countryCode;
-        }
-
-        return $pathName;
-    }
-
+    
     public function define()
     {
         $configuration = $this->configurationServiceProvider;
@@ -71,7 +61,7 @@ class DynamicModel extends AbstractModel {
 
     public function defineFromFileDirectory(Configuration $configuration)
     {
-        $fullDirectoryPath = $this->addCountryCodeIfDirectoryRequiresIt($this->directoryName, "config/$this->directoryName");
+        $fullDirectoryPath = File::addCountryCodeToPath($this->directoryName, "config/$this->directoryName");
 
         $fileNames = File::getList($fullDirectoryPath);
 
