@@ -3,6 +3,8 @@
 
 namespace VictorLava\SalaryCalculator\Helper;
 
+use Noodlehaus\Config;
+use Noodlehaus\Parser\Json;
 use VictorLava\SalaryCalculator\Constant;
 
 class File {
@@ -105,6 +107,18 @@ class File {
         }
 
         return $pathName;
+    }
+
+    /**
+     * Load's the config file from custom path and returns an array.
+     *
+     * @param  string  $pathToFile
+
+     * @return array
+     */
+    public static function loadFromCustomPath($pathToFile)
+    {
+        return Config::load($pathToFile, new Json())->all();
     }
 
 }

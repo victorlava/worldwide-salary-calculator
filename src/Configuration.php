@@ -27,12 +27,7 @@ class Configuration {
 
         return $this->configuration;
     }
-
-    public function loadFromCustomFile($pathToFile)
-    {
-        return Config::load($pathToFile, new Json())->all();
-    }
-
+    
     public function loadMainConfiguration()
     {
         return Config::load(self::CONFIG_DIRECTORY . '/config' . self::CONFIG_FILE_TYPE, new Json())->all();
